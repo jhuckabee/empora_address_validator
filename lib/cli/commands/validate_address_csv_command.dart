@@ -43,17 +43,18 @@ class ValidateAddressCsvCommand extends Command {
   Future<void> run() async {
     final String? apiKey =
         argResults![apiKeyOption] ?? env[apiKeyEnvironmentVariable];
-    if (apiKey == null || apiKey.isEmpty) {
+    final path = argResults![filePathOption];
+    final environment = argResults![environmentOption];
+
+    if (environment == liveEnvironment && (apiKey == null || apiKey.isEmpty)) {
       print(
           'ERROR: Address-Validator.net API key not specified. Please provide an API key using the -k option or the $apiKeyEnvironmentVariable environment variable.');
       exit(1);
     }
 
-    final path = argResults![filePathOption];
-    final environment = argResults![environmentOption];
     final clients = {
-      localEnvironment: AddressValidator.local(),
-      liveEnvironment: AddressValidator.http(apiKey),
+      localEnvironment: () => AddressValidator.local(),
+      liveEnvironment: () => AddressValidator.http(apiKey!),
     };
 
     final parseResult = await AddressParser.parseFile(path);
@@ -63,7 +64,7 @@ class ValidateAddressCsvCommand extends Command {
     }
 
     final bulkValidator = BulkAddressValidator(
-      validatorClient: clients[environment]!,
+      validatorClient: clients[environment]!(),
       inputAddresses: parseResult.addresses!,
     );
     final results = await bulkValidator.validate();
