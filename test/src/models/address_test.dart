@@ -1,6 +1,6 @@
 import 'package:test/test.dart';
 
-import '../support/factories/address.dart';
+import '../../support/factories/address.dart';
 
 void main() {
   test('has street address, city, and postal code', () {

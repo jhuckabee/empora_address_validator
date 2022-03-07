@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
-import 'package:empora_address_validator/models/address.dart';
+import 'package:empora_address_validator/src/models/address.dart';
 
 const invalidCsv = 'Invalid CSV file.';
 const invalidFieldLength =

@@ -1,4 +1,4 @@
-import 'package:empora_address_validator/models/address.dart';
+import 'package:empora_address_validator/src/models/address.dart';
 
 const defaultStreetAddress = '101 W Main St';
 const defaultCity = 'Wilmington';

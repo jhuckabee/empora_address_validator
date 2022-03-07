@@ -1,4 +1,4 @@
-import 'package:empora_address_validator/parsers/address_parser.dart';
+import 'package:empora_address_validator/src/parsers/address_parser.dart';
 import 'package:test/test.dart';
 
 void main() {
