@@ -8,4 +8,9 @@ class Address {
     required this.city,
     required this.postalCode,
   });
+
+  @override
+  String toString() {
+    return [streetAddress, city, postalCode].join(', ');
+  }
 }
