@@ -39,4 +39,29 @@ void main() {
       expect(parseResult.errorMessage, invalidCsv);
     });
   });
+
+  group('parseFile', () {
+    test('when file does not exist, returns an invalid file error', () async {
+      final parseResult = await AddressParser.parseFile('not_there.csv');
+      expect(parseResult.success, false);
+      expect(parseResult.errorMessage, invalidFilePath);
+    });
+
+    test('with a valid CSV file, returns list of addresses', () async {
+      final parseResult =
+          await AddressParser.parseFile('test/support/fixtures/addresses.csv');
+
+      expect(parseResult.success, true);
+      expect(parseResult.addresses!.length, 2);
+    });
+
+    test('with an invalid CSV file, returns appropriate error message',
+        () async {
+      final parseResult = await AddressParser.parseFile(
+          'test/support/fixtures/invalid_addresses.csv');
+
+      expect(parseResult.success, false);
+      expect(parseResult.errorMessage, invalidFieldLength);
+    });
+  });
 }

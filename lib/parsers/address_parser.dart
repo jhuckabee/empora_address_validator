@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:csv/csv.dart';
 import 'package:csv/csv_settings_autodetection.dart';
 import 'package:empora_address_validator/models/address.dart';
@@ -5,9 +7,22 @@ import 'package:empora_address_validator/models/address.dart';
 const invalidCsv = 'Invalid CSV file.';
 const invalidFieldLength =
     'Invalid field length. Each record must include street address, city, and postal code.';
+const invalidFilePath = 'Invalid file path.';
 const headerRow = ['Street Address', 'City', 'Postal Code'];
 
 class AddressParser {
+  static Future<_AddressParseResult> parseFile(String path) async {
+    final csvFile = File(path);
+    final exists = await csvFile.exists();
+    if (!exists) {
+      return _AddressParseResult.error(invalidFilePath);
+    }
+
+    final fileContents = await csvFile.readAsString();
+
+    return parse(fileContents);
+  }
+
   static _AddressParseResult parse(String csv) {
     if (csv.isEmpty) {
       return _AddressParseResult.error(invalidCsv);
